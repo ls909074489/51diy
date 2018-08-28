@@ -32,7 +32,7 @@ import com.ruoyi.project.system.user.domain.User;
  */
 @Controller
 @RequestMapping("/pub/notice")
-public class NoticePubController extends BaseController{
+public class BlogController extends BaseController{
 
 	private String prefix = "fly/notice";
 	
