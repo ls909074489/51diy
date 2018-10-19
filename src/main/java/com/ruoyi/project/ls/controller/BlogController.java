@@ -52,6 +52,13 @@ public class BlogController extends BaseController{
         return prefix + "/pub_notice_list";
     }
 
+    /**
+     * 查看公告
+     * @param noticeId
+     * @param userName
+     * @param model
+     * @return
+     */
     @RequestMapping("/view")
     public String detailView(@RequestParam Integer noticeId,@RequestParam String userName, Model model){
     	Blog notice = noticeService.selectNoticeById(noticeId);
