@@ -120,6 +120,11 @@ public class BlogController extends BaseController{
         return prefix + "/pub_blog_main";
     }
     
+    /**
+     * 添加
+     * @param model
+     * @return
+     */
     @GetMapping("/flyAdd")
     public String flyAdd(Model model){
         return prefix + "/pub_blog_add";
