@@ -13,7 +13,7 @@
     
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-notice-add">
+        <form class="form-horizontal m" id="form-blog-add">
         	<div class="form-group">
        			<label class="col-sm-3 control-label">
        				<button type="submit" class="btn btn-primary">提交</button>
@@ -23,13 +23,13 @@
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">公告标题：</label>
 				<div class="col-sm-8">
-					<input id="noticeTitle" name="noticeTitle" class="form-control" type="text">
+					<input id="blogTitle" name="blogTitle" class="form-control" type="text">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">公告类型：</label>
 				<div class="col-sm-8">
-					<select name="noticeType" class="form-control m-b" th:with="type=${@dict.getType('sys_notice_type')}">
+					<select name="blogType" class="form-control m-b" th:with="type=${@dict.getType('sys_blog_type')}">
 	                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
 	                </select>
 				</div>
@@ -37,14 +37,14 @@
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">公告内容：</label>
 				<div class="col-sm-8">
-				    <input id="noticeContent" name="noticeContent" type="hidden">
+				    <input id="blogContent" name="blogContent" type="hidden">
 				    <div class="summernote"></div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">公告状态：</label>
 				<div class="col-sm-8">
-				    <div class="radio-box" th:each="dict : ${@dict.getType('sys_notice_status')}">
+				    <div class="radio-box" th:each="dict : ${@dict.getType('sys_blog_status')}">
 						<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}" th:checked="${dict.isDefault == 'Y' ? true : false}">
 						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
 					</div>
@@ -112,23 +112,23 @@
 	 		});
 	 	    
 	 		$("#backList").click(function(){
-	 			 window.location.href=/*[[@{/}]]*/'/pub/notice/flyList';
+	 			 window.location.href=/*[[@{/}]]*/'/pub/blog/flyList';
 	 		});
 	    });
 	   
 	    
-		var prefix = ctx + "system/notice"
+		var prefix = /*[[@{/}]]*/'/pub/blog'; //ctx + "/pub/blog"
 		
-		$("#form-notice-add").validate({
+		$("#form-blog-add").validate({
 			rules:{
-				noticeTitle:{
+				blogTitle:{
 					required:true,
 				}
 			},
 			submitHandler: function(form) {
 				var sHTML = $('.summernote').code();
-				$("#noticeContent").val(sHTML);
-				$.operate.save(prefix + "/add", $('#form-notice-add').serialize());
+				$("#blogContent").val(sHTML);
+				$.operate.save(prefix + "/add", $('#form-blog-add').serialize());
 			}
 		});
 	</script>

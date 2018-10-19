@@ -3,7 +3,7 @@ package com.ruoyi.project.ls.domain;
 import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
- * 公告表 sys_notice
+ * 公告表 sys_blog
  * 
  * @author ruoyi
  */
@@ -12,13 +12,13 @@ public class Blog extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 公告ID */
-    private Integer noticeId;
+    private Integer blogId;
     /** 公告标题 */
-    private String noticeTitle;
+    private String blogTitle;
     /** 公告类型（1通知 2公告） */
-    private String noticeType;
+    private String blogType;
     /** 公告内容 */
-    private String noticeContent;
+    private String blogContent;
     /** 公告状态（0正常 1关闭） */
     private String status;
     
@@ -26,44 +26,44 @@ public class Blog extends BaseEntity
     
     private Integer replyCount=0;//回复次数
 
-    public void setNoticeId(Integer noticeId)
+    public void setBlogId(Integer blogId)
     {
-        this.noticeId = noticeId;
+        this.blogId = blogId;
     }
 
-    public Integer getNoticeId()
+    public Integer getBlogId()
     {
-        return noticeId;
+        return blogId;
     }
 
-    public void setNoticeTitle(String noticeTitle)
+    public void setBlogTitle(String blogTitle)
     {
-        this.noticeTitle = noticeTitle;
+        this.blogTitle = blogTitle;
     }
 
-    public String getNoticeTitle()
+    public String getBlogTitle()
     {
-        return noticeTitle;
+        return blogTitle;
     }
 
-    public void setNoticeType(String noticeType)
+    public void setBlogType(String blogType)
     {
-        this.noticeType = noticeType;
+        this.blogType = blogType;
     }
 
-    public String getNoticeType()
+    public String getBlogType()
     {
-        return noticeType;
+        return blogType;
     }
 
-    public void setNoticeContent(String noticeContent)
+    public void setBlogContent(String blogContent)
     {
-        this.noticeContent = noticeContent;
+        this.blogContent = blogContent;
     }
 
-    public String getNoticeContent()
+    public String getBlogContent()
     {
-        return noticeContent;
+        return blogContent;
     }
 
     public void setStatus(String status)

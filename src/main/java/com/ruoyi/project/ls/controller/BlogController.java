@@ -9,10 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
@@ -31,67 +33,74 @@ import com.ruoyi.project.system.user.domain.User;
  * @author ruoyi
  */
 @Controller
-@RequestMapping("/pub/notice")
+@RequestMapping("/pub/blog")
 public class BlogController extends BaseController{
 
-	private String prefix = "fly/notice";
+	private String prefix = "fly/blog";
 	
     @Autowired
-    private IBlogService noticeService;
+    private IBlogService blogService;
     @Autowired
-    private IBlogReplyService noticeReplyService;
+    private IBlogReplyService blogReplyService;
 
     @RequestMapping("/{userName}")
     public String detailList(@PathVariable("userName") String userName, Model model){
-    	Blog notice=new Blog();
-    	notice.setCreateBy(userName);
-    	notice.setStatus("0");
-    	List<Blog> list = noticeService.listByCreator(notice);
+    	Blog blog=new Blog();
+    	blog.setCreateBy(userName);
+    	blog.setStatus("0");
+    	List<Blog> list = blogService.listByCreator(blog);
     	model.addAttribute("userName", userName);
     	model.addAttribute("list", list);
-        return prefix + "/pub_notice_list";
+        return prefix + "/pub_blog_list";
     }
 
     /**
      * 查看公告
-     * @param noticeId
+     * @param blogId
      * @param userName
      * @param model
      * @return
      */
     @RequestMapping("/view")
-    public String detailView(@RequestParam Integer noticeId,@RequestParam String userName, Model model){
-    	Blog notice = noticeService.selectNoticeById(noticeId);
-    	noticeService.addViewCount(noticeId);
-    	model.addAttribute("notice", notice);
+    public String detailView(@RequestParam Integer blogId,@RequestParam String userName, Model model){
+    	Blog blog = blogService.selectBlogById(blogId);
+    	blogService.addViewCount(blogId);
+    	model.addAttribute("blog", blog);
     	model.addAttribute("userName", userName);
-        return prefix + "/pub_notice_detail";
+        return prefix + "/pub_blog_detail";
+    }
+    
+    @ResponseBody
+    @PostMapping("/add")
+    public AjaxResult addSave(Blog blog)
+    {
+        return toAjax(blogService.insertBlog(blog));
     }
     
     /**
      * 添加回复
-     * @param noticeId
+     * @param blogId
      * @param replyContent
      * @return
      */
     @ResponseBody
     @RequestMapping("/addReply")
-    public AjaxResult addReply(@RequestParam Integer noticeId, String replyContent){
-    	noticeService.addReplyCount(noticeId,replyContent);
+    public AjaxResult addReply(@RequestParam Integer blogId, String replyContent){
+    	blogService.addReplyCount(blogId,replyContent);
         return AjaxResult.success("");
     }
     
     /**
      * 获取回复
-     * @param noticeId
+     * @param blogId
      * @param replyContent
      * @return
      */
     @ResponseBody
     @RequestMapping("/dataReply")
-    public ActionResultModel<BlogReply> dataReply(@RequestParam Integer noticeId){
+    public ActionResultModel<BlogReply> dataReply(@RequestParam Integer blogId){
     	ActionResultModel<BlogReply> arm=new ActionResultModel<BlogReply>();
-    	List<BlogReply> list= noticeReplyService.selectNoticeList(noticeId);
+    	List<BlogReply> list= blogReplyService.selectBlogList(blogId);
     	arm.setSuc(true);
     	arm.setMsg((list==null?0:list.size())+"");
     	arm.setRecords(list);
@@ -102,43 +111,43 @@ public class BlogController extends BaseController{
     @GetMapping("/flyList")
     public String flyList(Model model){
     	User user=ShiroUtils.getUser();
-    	Blog notice=new Blog();
-    	notice.setCreateBy(user.getLoginName());
-    	List<Blog> list = noticeService.listByCreator(notice);
+    	Blog blog=new Blog();
+    	blog.setCreateBy(user.getLoginName());
+    	List<Blog> list = blogService.listByCreator(blog);
     	model.addAttribute("userName", user.getLoginName());
-    	model.addAttribute("noticeCount", user.getNoticeCount());
+    	model.addAttribute("blogCount", user.getBlogCount());
     	model.addAttribute("list", list);
-        return prefix + "/pub_notice_main";
+        return prefix + "/pub_blog_main";
     }
     
     @GetMapping("/flyAdd")
     public String flyAdd(Model model){
-        return prefix + "/pub_notice_add";
+        return prefix + "/pub_blog_add";
     }
     
     @Log(title = "通知公告", businessType = BusinessType.UPDATE)
-    @GetMapping("/flyEdit/{noticeId}")
-    public String flyEdit(@PathVariable("noticeId") Integer noticeId, Model model){
-        Blog notice = noticeService.selectNoticeById(noticeId);
-        model.addAttribute("notice", notice);
-        return prefix + "/pub_notice_edit";
+    @GetMapping("/flyEdit/{blogId}")
+    public String flyEdit(@PathVariable("blogId") Integer blogId, Model model){
+        Blog blog = blogService.selectBlogById(blogId);
+        model.addAttribute("blog", blog);
+        return prefix + "/pub_blog_edit";
     }
     
     
     @GetMapping("/flyView")
-    public String flyView(@RequestParam Integer noticeId,Model model){
-    	Blog notice = noticeService.selectNoticeById(noticeId);
-    	model.addAttribute("notice", notice);
-        return prefix + "/pub_notice_view";
+    public String flyView(@RequestParam Integer blogId,Model model){
+    	Blog blog = blogService.selectBlogById(blogId);
+    	model.addAttribute("blog", blog);
+        return prefix + "/pub_blog_view";
     }
   
     
     
 
 	@RequestMapping(value="/logout",method = RequestMethod.GET)
-	public String pubNoticeLogout(@RequestParam("userName") String userName,Model model) {
+	public String pubBlogLogout(@RequestParam("userName") String userName,Model model) {
 		Subject subject = SecurityUtils.getSubject();
 		subject.logout();
-		return "redirect:/pub/notice/"+userName;
+		return "redirect:/pub/blog/"+userName;
 	}
 }

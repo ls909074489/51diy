@@ -182,7 +182,7 @@
 		});
 		
 		$("#backList").click(function(){
-			 window.location.href=/*[[@{/}]]*/'/pub/notice/flyList';
+			 window.location.href=/*[[@{/}]]*/'/pub/blog/flyList';
 		});
     });
 		
@@ -237,7 +237,7 @@
 						if (result.code == web_status.SUCCESS) {
 							$.modal.msgReload("保存成功,正在刷新数据请稍后……",
 									modal_status.SUCCESS)
-							window.location.href=/*[[@{/}]]*/'/pub/notice/flyList';		
+							window.location.href=/*[[@{/}]]*/'/pub/blog/flyList';		
 						} else {
 							$.modal.alertError(result.msg)
 						}

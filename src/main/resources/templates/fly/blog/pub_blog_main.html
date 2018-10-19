@@ -88,22 +88,22 @@
         </div>
         
         <ul class="fly-list">
-          <li style="padding-left: 15px;" class="noticeLiCls" th:each="notice : ${list}">
+          <li style="padding-left: 15px;" class="blogLiCls" th:each="blog : ${list}">
             <h2>
-              <a class="layui-badge" th:if="${notice.noticeType} == '1'" th:text="通知"></a>
-              <a class="layui-badge" th:if="${notice.noticeType} == '2'" th:text="公告"></a>
+              <a class="layui-badge" th:if="${blog.blogType} == '1'" th:text="通知"></a>
+              <a class="layui-badge" th:if="${blog.blogType} == '2'" th:text="公告"></a>
               <a style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 65%;" 
-              	th:href="@{/pub/notice/flyView(noticeId=${notice.noticeId})}" th:text="${notice.noticeTitle}"></a>
+              	th:href="@{/pub/blog/flyView(blogId=${blog.blogId})}" th:text="${blog.blogTitle}"></a>
             </h2>
             <div class="fly-list-info"  style="">
-              <span class="" th:text="${notice.createDateTimeStr}"></span>
+              <span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd HH:mm:ss')}"></span>
               <span class="fly-list-nums"> 
                 <i class="iconfont icon-pinglun1" title="回答"></i> 66
-                 <i class="iconfont" title="人气">&#xe60b;</i> <span th:text="${notice.viewCount}"></span>
+                 <i class="iconfont" title="人气">&#xe60b;</i> <span th:text="${blog.viewCount}"></span>
               </span>
             </div>
             <div class="fly-list-badge">
-              <span class="layui-badge layui-bg-green"  th:onclick="'javascript: toEdit('+${notice.noticeId}+')' ">编辑</span>
+              <span class="layui-badge layui-bg-green"  th:onclick="'javascript: toEdit('+${blog.blogId}+')' ">编辑</span>
               <span class="layui-badge layui-bg-red">删除</span>
             </div>
           </li>
@@ -128,22 +128,22 @@
 <script type="text/javascript">
 	//编辑页面
 	function toEdit(id){
-		window.location.href=/*[[@{/}]]*/'/pub/notice/flyEdit/'+id;
+		window.location.href=/*[[@{/}]]*/'/pub/blog/flyEdit/'+id;
 	}
 	//添加页面
 	function toAdd(){
-		var noticeCount = [[${noticeCount}]];
-		var exitNotice=$(".noticeLiCls");
-		if(exitNotice!=null&&exitNotice.length>=noticeCount){
-			//layer.msg('当前用户最多只能发表'+noticeCount+"记录");
-			window.location.href=/*[[@{/}]]*/'/pub/notice/flyAdd';
+		var blogCount = [[${blogCount}]];
+		var exitBlog=$(".blogLiCls");
+		if(exitBlog!=null&&exitBlog.length>=blogCount){
+			//layer.msg('当前用户最多只能发表'+blogCount+"记录");
+			window.location.href=/*[[@{/}]]*/'/pub/blog/flyAdd';
 		}else{
-			window.location.href=/*[[@{/}]]*/'/pub/notice/flyAdd';
+			window.location.href=/*[[@{/}]]*/'/pub/blog/flyAdd';
 		}
 	}
 	//退出
 	function logOut(){
-		var logoutUrl=/*[[@{/}]]*/'/pub/notice/logout?userName=[[${userName}]]';
+		var logoutUrl=/*[[@{/}]]*/'/pub/blog/logout?userName=[[${userName}]]';
 		//var logoutUrl=/*[[@{/}]]*/'/logout';
 		console.info(logoutUrl);
 		window.location.href=logoutUrl;

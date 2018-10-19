@@ -79,7 +79,7 @@ public class User extends BaseEntity
     /** 岗位组 */
     private Long[] postIds;
     
-    public Integer noticeCount= 5;
+    public Integer blogCount= 5;
 
     public Long getUserId()
     {
@@ -282,12 +282,12 @@ public class User extends BaseEntity
         this.postIds = postIds;
     }
 
-    public Integer getNoticeCount() {
-		return noticeCount;
+    public Integer getBlogCount() {
+		return blogCount;
 	}
 
-	public void setNoticeCount(Integer noticeCount) {
-		this.noticeCount = noticeCount;
+	public void setBlogCount(Integer blogCount) {
+		this.blogCount = blogCount;
 	}
 
 	@Override
@@ -297,7 +297,7 @@ public class User extends BaseEntity
                 + ", userName=" + userName + ", email=" + email + ", phonenumber=" + phonenumber + ", sex=" + sex
                 + ", avatar=" + avatar + ", password=" + password + ", salt=" + salt + ", status=" + status
                 + ", delFlag=" + delFlag + ", loginIp=" + loginIp + ", loginDate=" + loginDate + ", dept=" + dept
-                + ", roleIds=" + Arrays.toString(roleIds) + ", postIds=" + Arrays.toString(postIds) + ", noticeCount="+noticeCount+"]";
+                + ", roleIds=" + Arrays.toString(roleIds) + ", postIds=" + Arrays.toString(postIds) + ", blogCount="+blogCount+"]";
     }
 
 }

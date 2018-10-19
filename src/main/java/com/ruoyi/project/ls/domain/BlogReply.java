@@ -3,7 +3,7 @@ package com.ruoyi.project.ls.domain;
 import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
- * 公告表 sys_notice
+ * 公告表 sys_blog
  * 
  * @author ruoyi
  */
@@ -13,7 +13,7 @@ public class BlogReply extends BaseEntity{
     /** 公告ID */
     private Integer replyId;
     /** 公告ID */
-    private Integer noticeId;
+    private Integer blogId;
     /** 回答内容 */
     private String replyContent;
     
@@ -25,11 +25,11 @@ public class BlogReply extends BaseEntity{
 	public void setReplyId(Integer replyId) {
 		this.replyId = replyId;
 	}
-	public Integer getNoticeId() {
-		return noticeId;
+	public Integer getBlogId() {
+		return blogId;
 	}
-	public void setNoticeId(Integer noticeId) {
-		this.noticeId = noticeId;
+	public void setBlogId(Integer blogId) {
+		this.blogId = blogId;
 	}
 	public String getReplyContent() {
 		return replyContent;

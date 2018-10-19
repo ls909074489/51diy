@@ -18,19 +18,19 @@ import com.ruoyi.project.ls.pub.mapper.BlogReplyMapper;
 public class BlogReplyServiceImpl implements IBlogReplyService
 {
     @Autowired
-    private BlogReplyMapper noticeReplyMapper;
+    private BlogReplyMapper blogReplyMapper;
 
 	@Override
-	public List<BlogReply> selectNoticeList(Integer noticeId) {
-		return noticeReplyMapper.selectNoticeList(noticeId);
+	public List<BlogReply> selectBlogList(Integer blogId) {
+		return blogReplyMapper.selectBlogList(blogId);
 	}
 
 	@Override
-	public int addReply(Integer noticeId, String replyContent) {
+	public int addReply(Integer blogId, String replyContent) {
 		BlogReply reply=new BlogReply();
-		reply.setNoticeId(noticeId);
+		reply.setBlogId(blogId);
 		reply.setReplyContent(replyContent);
-		return noticeReplyMapper.addReply(reply);
+		return blogReplyMapper.addReply(reply);
 	}
 
 

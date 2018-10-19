@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<link rel="shortcut icon" href="favicon.ico">
 	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
-	<link th:href="@{/css/layui.css}" rel="stylesheet" >
+	<!-- <link th:href="@{/css/layui.css}" rel="stylesheet" > -->
 	<link th:href="@{/css/font-awesome.css}" rel="stylesheet"/>
 	<!-- bootstrap-table 表格插件样式 -->
 	<link th:href="@{/css/animate.css}" rel="stylesheet"/>
@@ -21,41 +21,41 @@
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-notice-edit" th:object="${notice}">
+        <form class="form-horizontal m" id="form-blog-edit" th:object="${blog}">
        		<div class="form-group">
        			<label class="col-sm-3 control-label">
        				<button type="submit" class="btn btn-primary">提交</button>
 					<button id="backList" class="btn btn-primary" type="button">返回</button>
        			</label>
 			</div>
-            <input id="noticeId" name="noticeId" th:field="*{noticeId}"  type="hidden">
+            <input id="blogId" name="blogId" th:field="*{blogId}"  type="hidden">
             <div class="form-group">	
                 <label class="col-sm-3 control-label">公告标题：</label>
                 <div class="col-sm-8">
-                    <input id="noticeTitle" name="noticeTitle" th:field="*{noticeTitle}" class="form-control" type="text">
+                    <input id="blogTitle" name="blogTitle" th:field="*{blogTitle}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">
 				<label class="col-sm-3 control-label">公告类型：</label>
 				<div class="col-sm-8">
-					<select name="noticeType" class="form-control m-b" th:with="type=${@dictService.selectDictData('sys_notice_type')}">
-	                    <option th:each="dict : ${type}" th:text="${dict['dictLabel']}" th:value="${dict['dictValue']}" th:field="*{noticeType}"></option>
+	                <select name="blogType" class="form-control m-b" th:with="type=${@dict.getType('sys_blog_type')}">
+	                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
 	                </select>
 				</div>
 			</div>
             <div class="form-group">	
                 <label class="col-sm-3 control-label">公告内容：</label>
                 <div class="col-sm-8">
-                    <input id="noticeContent" name="noticeContent" th:field="*{noticeContent}" type="hidden">
+                    <input id="blogContent" name="blogContent" th:field="*{blogContent}" type="hidden">
                     <div id="summernote" class="summernote"></div>
                 </div>
             </div>
             <div class="form-group">
 				<label class="col-sm-3 control-label">公告状态：</label>
-				<div class="col-sm-8" th:with="type=${@dictService.selectDictData('sys_notice_status')}">
-					<div th:each="dict : ${type}" th:class="${dict['cssClass']}">
-						<input type="radio" th:id="${dict['dictCode']}" name="status" th:value="${dict['dictValue']}" th:field="*{status}">
-						<label th:for="${dict['dictCode']}" th:text="${dict['dictLabel']}"></label>
+				<div class="col-sm-8">
+				    <div class="radio-box" th:each="dict : ${@dict.getType('sys_blog_status')}">
+						<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}" th:checked="${dict.isDefault == 'Y' ? true : false}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
 					</div>
 				</div>
 			</div>
@@ -76,8 +76,10 @@
 	<script th:src="@{/ruoyi/js/ry-ui.min.js?v=2.1.0}"></script>
 	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
 	
-    <script th:src="@{/ajax/libs/summernote/summernote.min.js?v=343}"></script>
-    <script th:src="@{/ajax/libs/summernote/lang/summernote-zh-CN.js}"></script>
+    
+    <div th:include="include::footer"></div>
+    <script th:src="@{/ajax/libs/summernote/summernote.min.js}"></script>
+    <script th:src="@{/ajax/libs/summernote/summernote-zh-CN.js}"></script>
     <script type="text/javascript">
 	    $(function() {
 		    /* $('.summernote').summernote({
@@ -107,12 +109,12 @@
 			});
 		    
 		    
-			var content = $("#noticeContent").val();
+			var content = $("#blogContent").val();
 		    //$('#summernote').code(content);
 			var sHTML = $('.summernote').summernote('code',content);
 			
 			$("#backList").click(function(){
-				 window.location.href=/*[[@{/}]]*/'/pub/notice/flyList';
+				 window.location.href=/*[[@{/}]]*/'/pub/blog/flyList';
 			});
 	    });
 	    
@@ -145,9 +147,9 @@
 	        });
 		}
 	    
-		//var prefix = ctx + "system/notice";
-		var prefix = /*[[@{/}]]*/'/pub/notice';
-		$("#form-notice-edit").validate({
+		//var prefix = ctx + "system/blog";
+		var prefix = /*[[@{/}]]*/'/pub/blog';
+		$("#form-blog-edit").validate({
 			rules:{
 				xxxx:{
 					required:true,
@@ -156,20 +158,20 @@
 			submitHandler: function(form) {
 				//var sHTML = $('.summernote').code();
 				var sHTML = $('.summernote').summernote('code');
-				$("#noticeContent").val(sHTML);
+				$("#blogContent").val(sHTML);
 				
 				$.modal.loading("正在处理中，请稍后...");
 				var config = {
 					url : prefix + "/save",
 					type : "post",
 					dataType : "json",
-					data : $('#form-notice-edit').serialize(),
+					data : $('#form-blog-edit').serialize(),
 					success : function(result) {
 						console.info(result);
 						if (result.code == web_status.SUCCESS) {
 							$.modal.msgReload("保存成功,正在刷新数据请稍后……",
 									modal_status.SUCCESS)
-							window.location.href=/*[[@{/}]]*/'/pub/notice/flyList';		
+							window.location.href=/*[[@{/}]]*/'/pub/blog/flyList';		
 						} else {
 							$.modal.alertError(result.msg)
 						}

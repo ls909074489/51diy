@@ -4,22 +4,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.ls.pub.mapper.BlogReplyMapper">
     
-    <resultMap type="BlogReply" id="NoticeReplyResult">
+    <resultMap type="BlogReply" id="BlogReplyResult">
         <result property="replyId" column="reply_id"/>
-        <result property="noticeId"  column="notice_id"/>
+        <result property="blogId"  column="blog_id"/>
         <result property="replyContent"  column="reply_content"/>
         <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
     
-    <sql id="selectNoticeReplyVo">
-        select reply_id, notice_id, reply_content, status, create_time from sys_blog_reply
+    <sql id="selectBlogReplyVo">
+        select reply_id, blog_id, reply_content, status, create_time from sys_blog_reply
     </sql>
     
-   <select id="selectNoticeList" parameterType="BlogReply" resultMap="NoticeReplyResult">
-        <include refid="selectNoticeReplyVo"/>
+   <select id="selectBlogList" parameterType="BlogReply" resultMap="BlogReplyResult">
+        <include refid="selectBlogReplyVo"/>
         <where>
-				AND notice_id = #{noticeId} and status='0'
+				AND blog_id = #{blogId} and status='0'
 		</where>
 		order by create_time desc
     </select>
@@ -27,12 +27,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     
     <insert id="addReply" parameterType="BlogReply">
-        insert into sys_notice_reply (
-			notice_id,reply_content,status,
+        insert into sys_blog_reply (
+			blog_id,reply_content,status,
 			<if test="createBy != null and createBy != ''">create_by,</if>
 			create_time
  		)values(
-			#{noticeId},#{replyContent},'0',
+			#{blogId},#{replyContent},'0',
  			<if test="createBy != null and createBy != ''">#{createBy},</if>
  			sysdate()
 		)

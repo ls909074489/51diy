@@ -26,73 +26,74 @@ public class BlogServiceImpl implements IBlogService
     /**
      * 查询公告信息
      * 
-     * @param noticeId 公告ID
+     * @param blogId 公告ID
      * @return 公告信息
      */
     @Override
-    public Blog selectNoticeById(Integer noticeId)
+    public Blog selectBlogById(Integer blogId)
     {
-        return blogMapper.selectNoticeById(noticeId);
+        return blogMapper.selectBlogById(blogId);
     }
 
     /**
      * 查询公告列表
      * 
-     * @param notice 公告信息
+     * @param blog 公告信息
      * @return 公告集合
      */
     @Override
-    public List<Blog> selectNoticeList(Blog notice)
+    public List<Blog> selectBlogList(Blog blog)
     {
-        return blogMapper.selectNoticeList(notice);
+        return blogMapper.selectBlogList(blog);
     }
 
     /**
      * 新增公告
      * 
-     * @param notice 公告信息
+     * @param blog 公告信息
      * @return 结果
      */
     @Override
-    public int insertNotice(Blog notice)
+    public int insertBlog(Blog blog)
     {
-        return blogMapper.insertNotice(notice);
+    	blog.setCreateBy(ShiroUtils.getLoginName());
+        return blogMapper.insertBlog(blog);
     }
 
     /**
      * 修改公告
      * 
-     * @param notice 公告信息
+     * @param blog 公告信息
      * @return 结果
      */
     @Override
-    public int updateNotice(Blog notice)
+    public int updateBlog(Blog blog)
     {
-        return blogMapper.updateNotice(notice);
+        return blogMapper.updateBlog(blog);
     }
 
     /**
      * 保存公告
      * 
-     * @param notice 公告信息
+     * @param blog 公告信息
      * @return 结果
      */
     @Override
-    public int saveNotice(Blog notice)
+    public int saveBlog(Blog blog)
     {
-        Integer noticeId = notice.getNoticeId();
+        Integer blogId = blog.getBlogId();
         int rows = 0;
-        if (StringUtils.isNotNull(noticeId))
+        if (StringUtils.isNotNull(blogId))
         {
-            notice.setUpdateBy(ShiroUtils.getLoginName());
+            blog.setUpdateBy(ShiroUtils.getLoginName());
             // 修改公告
-            rows = blogMapper.updateNotice(notice);
+            rows = blogMapper.updateBlog(blog);
         }
         else
         {
-            notice.setCreateBy(ShiroUtils.getLoginName());
+            blog.setCreateBy(ShiroUtils.getLoginName());
             // 新增公告
-            rows = blogMapper.insertNotice(notice);
+            rows = blogMapper.insertBlog(blog);
         }
         return rows;
     }
@@ -104,9 +105,9 @@ public class BlogServiceImpl implements IBlogService
      * @return 结果
      */
     @Override
-    public int deleteNoticeByIds(String ids)
+    public int deleteBlogByIds(String ids)
     {
-        return blogMapper.deleteNoticeByIds(Convert.toStrArray(ids));
+        return blogMapper.deleteBlogByIds(Convert.toStrArray(ids));
     }
 
     
@@ -116,19 +117,19 @@ public class BlogServiceImpl implements IBlogService
      * @return
      */
 	@Override
-	public List<Blog> listByCreator(Blog notice) {
-		return blogMapper.listByCreator(notice);
+	public List<Blog> listByCreator(Blog blog) {
+		return blogMapper.listByCreator(blog);
 	}
 
 	@Override
-	public int addViewCount(Integer noticeId) {
-		return blogMapper.addViewCount(noticeId);
+	public int addViewCount(Integer blogId) {
+		return blogMapper.addViewCount(blogId);
 	}
 
 	@Override
-	public int addReplyCount(Integer noticeId,String replyContent) {
-		blogReplyService.addReply(noticeId,replyContent);
-		return blogMapper.addReplyCount(noticeId);
+	public int addReplyCount(Integer blogId,String replyContent) {
+		blogReplyService.addReply(blogId,replyContent);
+		return blogMapper.addReplyCount(blogId);
 	}
 
 }
