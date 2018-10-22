@@ -136,7 +136,7 @@ $(".layui-btn").click(function(){
 				layer.close(loginWaitLoad);
 				if (data.code==0) {
 					layer.msg('登录成功', {icon: 1}); 
-					window.location.href=/*[[@{/}]]*/'/pub/notice/flyList';
+					window.location.href=/*[[@{/}]]*/'/pub/blog/flyList';
 				}else {
 					layer.alert(data.msg);  
 				}

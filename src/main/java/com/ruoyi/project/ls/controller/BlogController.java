@@ -70,6 +70,11 @@ public class BlogController extends BaseController{
         return prefix + "/pub_blog_detail";
     }
     
+    /**
+     * 新增
+     * @param blog
+     * @return
+     */
     @ResponseBody
     @PostMapping("/add")
     public AjaxResult addSave(Blog blog)
